@@ -519,6 +519,147 @@ dialog.sosd{padding-top:30px}
 }
 #aboutGrid>*{min-width:0}
 @media (max-width:860px){#aboutGrid{grid-template-columns:1fr!important;gap:28px!important}}
+
+/* ================= VISUAL UPGRADE v2 (graphics) ================= */
+:root{--g1:#14b8a6;--g2:#0e7490;--glow:0 0 0 1px rgba(255,255,255,.06),0 30px 80px -30px rgba(6,43,45,.55)}
+/* section eyebrow -> pill */
+.eyebrow{align-self:flex-start;padding:6px 14px 6px 12px;border-radius:999px;background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent)}
+.eyebrow::before{width:8px;height:8px;border-radius:50%}
+.head h2{background:linear-gradient(var(--ang),var(--text) 40%,color-mix(in srgb,var(--brand) 85%,var(--text)));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* hero: rings, blobs, floating glass badges */
+.hero{background:
+  radial-gradient(45% 55% at 18% 30%,rgba(20,184,166,.32),transparent 65%),
+  radial-gradient(40% 50% at 90% 10%,rgba(209,154,92,.28),transparent 60%),
+  radial-gradient(60% 60% at 60% 120%,rgba(14,116,144,.45),transparent 60%),
+  linear-gradient(var(--ang),#041f21 0%,#073a3c 55%,#0a4a4a 100%)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M29 22h6v7h7v6h-7v7h-6v-7h-7v-6h7z' fill='%23ffffff'/%3E%3C/svg%3E");
+  -webkit-mask-image:radial-gradient(70% 70% at 30% 40%,#000,transparent 75%);mask-image:radial-gradient(70% 70% at 30% 40%,#000,transparent 75%)}
+.hero-art{isolation:isolate}
+.hero-art .ring{position:absolute;z-index:-1;left:50%;top:50%;border-radius:50%;translate:-50% -50%;border:1px solid rgba(255,255,255,.14);pointer-events:none}
+.hero-art .ring.r1{width:min(560px,118%);aspect-ratio:1;animation:spin 40s linear infinite;border-style:dashed;border-color:rgba(95,224,200,.28)}
+.hero-art .ring.r2{width:min(460px,98%);aspect-ratio:1;background:radial-gradient(circle,rgba(20,184,166,.28),transparent 65%)}
+.hero-art .ring.r1::after{content:"";position:absolute;top:8%;left:12%;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 18px var(--gold)}
+@keyframes spin{to{rotate:360deg}}
+.hslider{box-shadow:0 0 0 8px rgba(255,255,255,.05),0 40px 90px -30px rgba(0,0,0,.8)}
+.fbadge{position:absolute;z-index:4;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:18px;color:#fff;
+  background:linear-gradient(135deg,rgba(255,255,255,.20),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 20px 40px -18px rgba(0,0,0,.6);animation:up 1s cubic-bezier(.2,.7,.2,1) both,floaty 6s ease-in-out infinite;direction:inherit}
+.fbadge b{display:block;font:800 1.2rem/1.1 "Manrope",sans-serif;direction:ltr;text-align:start}
+.fbadge small{display:block;font-size:.76rem;color:var(--on-navy);opacity:.85;line-height:1.35;max-width:15ch}
+.fbadge .bi{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;flex:none}
+.fbadge .bi svg{width:22px;height:22px}
+.fbadge.f1{top:3%;inset-inline-end:-2%;animation-delay:.3s,.8s}
+.fbadge.f1 .bi{background:linear-gradient(135deg,#ff6b6b,#c3312b)}
+.fbadge.f2{bottom:12%;inset-inline-start:-4%;animation-delay:.5s,2s}
+.fbadge.f2 .bi{background:linear-gradient(135deg,#f3c58b,#d1873f)}
+.fbadge.f3{top:46%;inset-inline-start:-8%;padding:10px 14px;animation-delay:.7s,3.2s}
+.fbadge.f3 svg.pulse{width:92px;height:30px;color:#5fe0c8}
+.fbadge.f3 svg.pulse path{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:180;animation:dash 2.4s linear infinite}
+@keyframes dash{from{stroke-dashoffset:180}to{stroke-dashoffset:0}}
+.avs{display:flex}
+.avs img{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:50% 12%;border:2px solid #0b3b3d;margin-inline-start:-9px;background:#cfe}
+.avs img:first-child{margin-inline-start:0}
+@media (max-width:1050px){.fbadge.f1{inset-inline-end:0}.fbadge.f2{inset-inline-start:0}.fbadge.f3{inset-inline-start:0}}
+@media (max-width:560px){.fbadge{padding:9px 12px;gap:9px;border-radius:14px}.fbadge .bi{width:34px;height:34px;border-radius:10px}.fbadge b{font-size:1rem}.fbadge small{font-size:.68rem}.fbadge.f3{display:none}.fbadge.f1{top:-16px;inset-inline-end:12px}.fbadge.f2{bottom:-14px;inset-inline-start:12px}}
+
+/* wave under hero */
+.hero .wave{position:absolute;inset-inline:0;bottom:-1px;height:70px;width:100%;color:var(--bg);z-index:1;display:block}
+
+/* stats as gradient tiles */
+.stats .grid{gap:18px}
+.stat{position:relative;display:flex;align-items:center;gap:16px;text-align:start;padding:22px;border-radius:22px;background:var(--surface);border:1px solid var(--line);box-shadow:0 18px 40px -30px rgba(6,43,45,.5);overflow:hidden}
+.stat + .stat{border-inline-start:1px solid var(--line)}
+.stat:nth-child(3){border-inline-start:1px solid var(--line)}
+.stat::after{content:"";position:absolute;inset-inline-end:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:var(--sc);opacity:.10}
+.stat .si{width:56px;height:56px;border-radius:16px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--sc),color-mix(in srgb,var(--sc) 55%,#062b2d));box-shadow:0 12px 24px -12px var(--sc)}
+.stat .si svg{width:27px;height:27px}
+.stat b{font-size:clamp(1.7rem,3vw,2.3rem);color:var(--text);text-align:start}
+.stat span{display:block;line-height:1.4}
+.stat:nth-child(1){--sc:#e5484d}.stat:nth-child(2){--sc:#0f9d8f}.stat:nth-child(3){--sc:#d1873f}.stat:nth-child(4){--sc:#5b6ee1}
+@media (max-width:640px){.stat{padding:14px;gap:10px;border-radius:18px}.stat .si{width:42px;height:42px;border-radius:12px}.stat .si svg{width:21px;height:21px}.stat b{font-size:1.5rem}.stat span{font-size:.78rem}}
+
+/* doctors section backdrop + cards */
+#doctors{position:relative;background:
+  radial-gradient(40% 30% at 100% 0%,color-mix(in srgb,var(--brand) 10%,transparent),transparent 70%),
+  radial-gradient(35% 25% at 0% 60%,color-mix(in srgb,var(--gold) 10%,transparent),transparent 70%)}
+.card{border-radius:24px;box-shadow:0 14px 34px -28px rgba(6,43,45,.55)}
+.card .pic{background:
+  radial-gradient(80% 60% at 50% 100%,color-mix(in srgb,var(--brand) 38%,transparent),transparent 70%),
+  radial-gradient(circle at 1px 1px,color-mix(in srgb,var(--brand) 22%,transparent) 1px,transparent 1.5px) 0 0/14px 14px,
+  linear-gradient(180deg,#eef6f5,#cfe6e3)}
+:root[data-theme="dark"] .card .pic{background:radial-gradient(80% 60% at 50% 100%,rgba(76,179,169,.35),transparent 70%),linear-gradient(180deg,#142a2c,#0d1e20)}
+.card .pic::after{content:"";position:absolute;inset:auto 0 0;height:38%;background:linear-gradient(transparent,rgba(6,43,45,.28));pointer-events:none}
+.card .pic img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.card:hover .pic img{transform:scale(1.06)}
+.card:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line))}
+.card .body{position:relative}
+.card .body::before{content:"";position:absolute;top:0;inset-inline:18px;height:3px;border-radius:0 0 3px 3px;background:linear-gradient(90deg,var(--brand),var(--gold));opacity:0;transition:opacity .3s}
+.card:hover .body::before{opacity:1}
+.clinic{background:linear-gradient(135deg,rgba(6,43,45,.85),rgba(15,110,106,.85));border:1px solid rgba(255,255,255,.2)}
+
+/* departments: coloured, illustrated tiles */
+.svc{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--surface),var(--bg))}
+.svc::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;inset-inline-start:-180px;top:-200px;background:radial-gradient(circle,color-mix(in srgb,var(--brand) 14%,transparent),transparent 70%);pointer-events:none}
+.svc::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;inset-inline-end:-140px;bottom:-180px;background:radial-gradient(circle,color-mix(in srgb,var(--gold) 14%,transparent),transparent 70%);pointer-events:none}
+.svcs{position:relative;z-index:1}
+.s{position:relative;overflow:hidden;background:var(--surface);border-radius:24px;padding:26px 22px;box-shadow:0 14px 34px -30px rgba(6,43,45,.6);--dc:#0f9d8f}
+.s .ic{width:56px;height:56px;border-radius:18px;color:#fff;background:linear-gradient(135deg,var(--dc),color-mix(in srgb,var(--dc) 50%,#062b2d));box-shadow:0 14px 26px -12px var(--dc)}
+.s .ic svg{width:27px;height:27px}
+.s.er .ic{background:linear-gradient(135deg,#ff6b6b,#c3312b);color:#fff}
+.s .wm{position:absolute;inset-inline-end:-18px;bottom:-18px;width:110px;height:110px;color:var(--dc);opacity:.08;transition:opacity .3s,transform .4s;pointer-events:none}
+.s:hover{border-color:var(--dc);box-shadow:0 26px 50px -30px var(--dc)}
+.s:hover .wm{opacity:.16;transform:rotate(-10deg) scale(1.08)}
+.s::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--dc),transparent)}
+.s[data-k="er"]{--dc:#e5484d}.s[data-k="icu"]{--dc:#0f9d8f}.s[data-k="nicu"]{--dc:#e2669a}.s[data-k="ob"]{--dc:#8b5cf6}.s[data-k="surg"]{--dc:#2f7fd8}
+.s[data-k="int"]{--dc:#e0576b}.s[data-k="ortho"]{--dc:#e39b2d}.s[data-k="lab"]{--dc:#0ea5b7}.s[data-k="rad"]{--dc:#5b6ee1}.s[data-k="pharm"]{--dc:#22a35a}
+
+/* health area */
+.htabs button[aria-selected="true"]{background:linear-gradient(135deg,var(--brand),#0b4651);box-shadow:0 12px 26px -14px var(--brand)}
+.hpanel{background:linear-gradient(180deg,var(--surface),color-mix(in srgb,var(--tint) 50%,var(--surface)))}
+.bcard{box-shadow:0 14px 34px -30px rgba(6,43,45,.6)}
+.bcard.hot{background:radial-gradient(80% 80% at 100% 0%,rgba(209,154,92,.35),transparent 60%),linear-gradient(var(--ang),var(--navy),var(--navy-2))}
+.tipc{align-items:flex-start;transition:transform .25s,box-shadow .25s,border-color .25s}
+.tipc:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 20px 40px -30px rgba(6,43,45,.6)}
+.tipc b{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:1rem;color:#2b1a08;background:linear-gradient(135deg,#f3c58b,#d1873f)}
+
+/* direct lines */
+.line .ic{width:50px;height:50px;border-radius:16px;color:#fff;background:linear-gradient(135deg,var(--brand),#0b4651);box-shadow:0 12px 24px -12px var(--brand)}
+.line.sos{background:radial-gradient(80% 80% at 100% 0%,rgba(255,255,255,.18),transparent 60%),linear-gradient(var(--ang),#a8231e,#e04a42);box-shadow:0 24px 50px -24px #c3312b}
+
+/* about illustration */
+.about-art{position:relative;margin-top:30px;border-radius:30px;overflow:hidden;background:linear-gradient(160deg,#0b4a4a,#062b2d);box-shadow:var(--glow);aspect-ratio:5/4}
+.about-art svg.scene{position:absolute;inset:0;width:100%;height:100%}
+.about-art .ab{position:absolute;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.92);color:#0f2124;box-shadow:0 16px 30px -16px rgba(0,0,0,.5);font-size:.82rem;line-height:1.3;animation:floaty 6s ease-in-out infinite}
+.about-art .ab b{display:block;font:800 1.05rem "Manrope",sans-serif;direction:ltr;text-align:start}
+.about-art .ab i{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;flex:none}
+.about-art .ab i svg{width:18px;height:18px}
+.about-art .ab.a1{top:7%;inset-inline-start:6%}
+.about-art .ab.a1 i{background:linear-gradient(135deg,#ff6b6b,#c3312b)}
+.about-art .ab.a2{bottom:8%;inset-inline-end:6%;animation-delay:2s}
+.about-art .ab.a2 i{background:linear-gradient(135deg,#14b8a6,#0e7490)}
+#about{position:relative;overflow:hidden}
+#about::before{content:"";position:absolute;inset-inline-end:-120px;top:20%;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--brand) 12%,transparent),transparent 70%)}
+.pillars .ico{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,transparent),transparent);border-width:1.5px}
+
+/* contact with map */
+.contact-grid{max-width:1200px;grid-template-columns:1fr 1.15fr;gap:44px;align-items:stretch}
+.mapcard{position:relative;border-radius:28px;overflow:hidden;min-height:420px;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--tint)}
+.mapcard iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(1.05)}
+.mapcard .mapbar{position:absolute;inset-inline:14px;bottom:14px;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);box-shadow:0 18px 40px -20px rgba(0,0,0,.5)}
+.mapcard .mapbar .pin{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#ff6b6b,#c3312b);flex:none}
+.mapcard .mapbar .pin svg{width:22px;height:22px}
+.mapcard .mapbar div{flex:1;min-width:0;font-size:.86rem;line-height:1.4}
+.mapcard .mapbar b{display:block;font-family:var(--f-head)}
+.mapcard .mapbar .btn{padding:10px 16px;font-size:.86rem;white-space:nowrap}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr}.mapcard{min-height:340px}}
+@media (max-width:480px){.mapcard .mapbar{flex-wrap:wrap}.mapcard .mapbar .btn{width:100%}}
+
+/* footer glow */
+footer{position:relative;background:radial-gradient(50% 60% at 85% 0%,rgba(20,184,166,.16),transparent 70%),radial-gradient(40% 50% at 0% 100%,rgba(209,154,92,.12),transparent 70%),#031516}
+.btn-brand,.btn-white{box-shadow:0 12px 26px -14px rgba(0,0,0,.45)}
+@media (prefers-reduced-motion:reduce){.hero-art .ring.r1,.fbadge,.about-art .ab{animation:none}}
 </style>
 </head>
 <body>
@@ -557,6 +698,7 @@ dialog.sosd{padding-top:30px}
 <main id="top">
   <section class="hero">
     <div class="ecg" aria-hidden="true"></div>
+    <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0 40c160-30 320-30 480 0s320 30 480 0 320-30 480 0v30H0z"/></svg>
     <div class="wrap hero-grid">
       <div>
         <h1><span data-i="heroA">Care that's</span> <em data-i="heroB">close to home.</em></h1>
@@ -638,10 +780,82 @@ dialog.sosd{padding-top:30px}
 
   <section class="block" id="about">
     <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start" id="aboutGrid">
+      <div>
       <div class="head" style="margin:0">
         <span class="eyebrow" data-i="aboutEyebrow">About us</span>
         <h2 data-i="aboutTitle">A private hospital built for Zakho</h2>
       </div>
+      <div class="about-art" aria-hidden="true">
+        <svg class="scene" viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d5b58"/><stop offset="1" stop-color="#073536"/></linearGradient>
+            <linearGradient id="bld" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dcebe9"/></linearGradient>
+            <linearGradient id="bld2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9f3f1"/><stop offset="1" stop-color="#c3dbd8"/></linearGradient>
+            <linearGradient id="win" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fd6cf"/><stop offset="1" stop-color="#2a8f8a"/></linearGradient>
+            <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f3c58b"/><stop offset="1" stop-color="#f3c58b" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect width="500" height="400" fill="url(#sky)"/>
+          <circle cx="400" cy="80" r="90" fill="url(#sun)" opacity=".55"/>
+          <circle cx="400" cy="80" r="26" fill="#f3c58b"/>
+          <path d="M0 270 L70 200 L130 240 L200 170 L280 235 L340 190 L420 245 L500 200 V400 H0Z" fill="#0a4544"/>
+          <path d="M0 300 L90 245 L170 280 L260 230 L350 275 L430 240 L500 270 V400 H0Z" fill="#0b5150"/>
+          <g opacity=".9"><path d="M60 70c10-10 30-10 36 2 14-2 22 10 16 18H48c-8-6-2-20 12-20z" fill="#ffffff" opacity=".18"/><path d="M230 50c8-8 24-8 29 2 11-2 18 8 13 14h-52c-6-5-2-16 10-16z" fill="#ffffff" opacity=".14"/></g>
+          <!-- side wing -->
+          <rect x="70" y="190" width="110" height="150" rx="6" fill="url(#bld2)"/>
+          <g fill="url(#win)">
+            <rect x="85" y="208" width="22" height="18" rx="3"/><rect x="115" y="208" width="22" height="18" rx="3"/><rect x="145" y="208" width="22" height="18" rx="3"/>
+            <rect x="85" y="238" width="22" height="18" rx="3"/><rect x="115" y="238" width="22" height="18" rx="3"/><rect x="145" y="238" width="22" height="18" rx="3"/>
+            <rect x="85" y="268" width="22" height="18" rx="3"/><rect x="115" y="268" width="22" height="18" rx="3"/><rect x="145" y="268" width="22" height="18" rx="3"/>
+          </g>
+          <!-- main tower -->
+          <rect x="170" y="110" width="170" height="230" rx="8" fill="url(#bld)"/>
+          <rect x="170" y="110" width="170" height="16" rx="8" fill="#0f6e6a"/>
+          <g fill="url(#win)">
+            <rect x="188" y="145" width="28" height="22" rx="3"/><rect x="226" y="145" width="28" height="22" rx="3"/><rect x="292" y="145" width="28" height="22" rx="3"/>
+            <rect x="188" y="180" width="28" height="22" rx="3"/><rect x="226" y="180" width="28" height="22" rx="3"/><rect x="256" y="180" width="28" height="22" rx="3" opacity=".0"/><rect x="292" y="180" width="28" height="22" rx="3"/>
+            <rect x="188" y="215" width="28" height="22" rx="3"/><rect x="226" y="215" width="28" height="22" rx="3"/><rect x="256" y="215" width="28" height="22" rx="3"/><rect x="292" y="215" width="28" height="22" rx="3"/>
+            <rect x="188" y="250" width="28" height="22" rx="3"/><rect x="226" y="250" width="28" height="22" rx="3"/><rect x="256" y="250" width="28" height="22" rx="3"/><rect x="292" y="250" width="28" height="22" rx="3"/>
+          </g>
+          <!-- cross sign -->
+          <circle cx="270" cy="160" r="20" fill="#c3312b"/>
+          <path d="M266 148h8v8h8v8h-8v8h-8v-8h-8v-8h8z" fill="#fff"/>
+          <!-- entrance -->
+          <rect x="222" y="290" width="66" height="50" rx="4" fill="#0f6e6a"/>
+          <rect x="230" y="298" width="22" height="42" fill="#7fd6cf" opacity=".85"/><rect x="258" y="298" width="22" height="42" fill="#7fd6cf" opacity=".85"/>
+          <rect x="212" y="282" width="86" height="10" rx="3" fill="#d19a5c"/>
+          <!-- right wing -->
+          <rect x="330" y="200" width="100" height="140" rx="6" fill="url(#bld2)"/>
+          <g fill="url(#win)">
+            <rect x="345" y="218" width="30" height="20" rx="3"/><rect x="385" y="218" width="30" height="20" rx="3"/>
+            <rect x="345" y="250" width="30" height="20" rx="3"/><rect x="385" y="250" width="30" height="20" rx="3"/>
+            <rect x="345" y="282" width="30" height="20" rx="3"/><rect x="385" y="282" width="30" height="20" rx="3"/>
+          </g>
+          <!-- helipad -->
+          <ellipse cx="255" cy="110" rx="34" ry="5" fill="#0b3b3d" opacity=".35"/>
+          <!-- ground -->
+          <rect x="0" y="338" width="500" height="62" fill="#08393a"/>
+          <rect x="0" y="352" width="500" height="6" fill="#d19a5c" opacity=".35"/>
+          <!-- trees -->
+          <g><rect x="44" y="310" width="5" height="30" fill="#5a3a1c"/><circle cx="46" cy="304" r="18" fill="#1faa7a"/><circle cx="38" cy="312" r="11" fill="#17936a"/></g>
+          <g><rect x="452" y="312" width="5" height="28" fill="#5a3a1c"/><circle cx="454" cy="304" r="17" fill="#1faa7a"/><circle cx="463" cy="312" r="10" fill="#17936a"/></g>
+          <!-- ambulance -->
+          <g transform="translate(330 318)">
+            <rect x="0" y="6" width="58" height="26" rx="5" fill="#ffffff"/>
+            <path d="M58 12h14l10 10v10H58z" fill="#ffffff"/>
+            <path d="M62 15h9l7 7H62z" fill="#7fd6cf"/>
+            <rect x="0" y="22" width="82" height="4" fill="#c3312b"/>
+            <path d="M24 10h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#c3312b"/>
+            <rect x="14" y="0" width="12" height="6" rx="2" fill="#4cc3ff"/>
+            <circle cx="16" cy="34" r="7" fill="#0f2124"/><circle cx="16" cy="34" r="3" fill="#cfd8d8"/>
+            <circle cx="66" cy="34" r="7" fill="#0f2124"/><circle cx="66" cy="34" r="3" fill="#cfd8d8"/>
+          </g>
+          <!-- ecg line in sky -->
+          <path d="M20 120h60l10-22 14 44 12-30 8 8h60" fill="none" stroke="#5fe0c8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+        </svg>
+        <div class="ab a1"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i><span><b>24/7</b><span data-i="stat1"></span></span></div>
+        <div class="ab a2"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M6 11h3l1.5-3 3 6 1.5-3H18M8 21h8"/></svg></i><span><b>ICU</b><span data-i="stat4"></span></span></div>
+      </div>
+    </div>
       <div style="display:flex;flex-direction:column;gap:14px;color:var(--muted);font-size:1.06rem">
         <p data-i="aboutP1"></p><p data-i="aboutP2"></p>
         <ul class="pillars">
@@ -662,6 +876,10 @@ dialog.sosd{padding-top:30px}
         </div>
         <dl class="list" id="contactList"></dl>
         <div class="social" id="social"></div>
+      </div>
+      <div class="mapcard">
+        <iframe title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=4M7X%2B9W%2C%20Zakho%2C%20Iraq&z=16&output=embed"></iframe>
+        <div class="mapbar"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div><b data-i="name">Zakho Private Hospital</b><span id="mapAddr"></span></div><a class="btn btn-brand" id="mapBtn" href="#" target="_blank" rel="noopener" data-i="openMap">Open in Google Maps</a></div>
       </div>
     </div>
   </section>
@@ -1013,6 +1231,7 @@ function renderStatic(t){
 }
 
 function renderContact(t){
+  { const a=$("mapAddr"), b=$("mapBtn"); if(a) a.textContent=(CONFIG.address&&(CONFIG.address[lang]||CONFIG.address.en))||""; if(b&&CONFIG.maps) b.href=CONFIG.maps; }
   const addr = CONFIG.address[lang] || CONFIG.address.en, hours = CONFIG.hours[lang] || CONFIG.hours.en;
   const phones = CONFIG.phones;
   $("stripAddr").innerHTML = addr ? esc(addr) : ph(t.ph.addr);
@@ -1058,7 +1277,11 @@ function renderHero(){
     <div class="htrack" id="ht">${ds.map(d=>`<figure class="hs"><img src="${esc(d.heroPhoto||d.photo)}" alt="${esc(docName(d)||"")}"><figcaption><b>${esc(docName(d)||"")}</b>${d.clinic?`<span>${esc(t.clinic)} <span class="num" style="display:inline">${esc(d.clinic)}</span></span>`:""}</figcaption></figure>`).join("")}</div>
     <button class="hb prev" type="button" aria-label="Previous">${arrow("m15 5-7 7 7 7")}</button>
     <button class="hb next" type="button" aria-label="Next">${arrow("m9 5 7 7-7 7")}</button>
-    <span class="hcount" id="hc"></span><span class="hprog"><i id="hp"></i></span></div>`;
+    <span class="hcount" id="hc"></span><span class="hprog"><i id="hp"></i></span></div>
+    <span class="ring r1" aria-hidden="true"></span><span class="ring r2" aria-hidden="true"></span>
+    <div class="fbadge f1" aria-hidden="true"><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><div><b>24/7</b><small>${esc(t.stat1)}</small></div></div>
+    <div class="fbadge f2" aria-hidden="true"><span class="avs">${ds.slice(0,3).map(d=>`<img src="${esc(d.photo)}" alt="">`).join("")}</span><div><b>${CONFIG.doctors.length}+</b><small>${esc(t.stat3)}</small></div></div>
+    <div class="fbadge f3" aria-hidden="true"><svg class="pulse" viewBox="0 0 92 30"><path d="M2 16h20l5-10 7 20 6-14 4 4h46"/></svg></div>`;
   const track = $("ht"), hc = $("hc"), hp = $("hp"), box = $("hs");
   let dir = 1, hover = false;
   const show = i => {
@@ -1532,11 +1755,12 @@ function chatReset(){
 }
 
 function renderStats(t){
-  $("statsGrid").innerHTML = CONFIG.stats.map(s=>`<div class="stat"><b>${s.v ? esc(s.v) : "—"}</b><span>${t[s.k]}</span></div>`).join("");
+  const SI = ['<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>','<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>','<circle cx="12" cy="7" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/><path d="M12 14v4M10 16h4"/>',ICONS.icu];
+  $("statsGrid").innerHTML = CONFIG.stats.map((s,i)=>`<div class="stat"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SI[i]||ICONS.er}</svg></span><div><b>${s.v ? esc(s.v) : "—"}</b><span>${t[s.k]}</span></div></div>`).join("");
 }
 
 function renderDepts(t){
-  $("svcs").innerHTML = DEPTS.map(k=>`<article class="s${k==="er"?" er":""}"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg></span><h3>${t.d[k][0]}</h3><p>${t.d[k][1]}</p></article>`).join("");
+  $("svcs").innerHTML = DEPTS.map(k=>`<article class="s${k==="er"?" er":""}" data-k="${k}"><svg class="wm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg></span><h3>${t.d[k][0]}</h3><p>${t.d[k][1]}</p></article>`).join("");
 }
 
 /* name search: forgiving about Arabic/Kurdish spelling (أ/ا, ە/ه, ی/ي, ک/ك ...) and matches the start of any name word */
@@ -1664,7 +1888,7 @@ render();
 if ("IntersectionObserver" in window){
   document.documentElement.classList.add("js");
   const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }),{threshold:.1});
-  document.querySelectorAll(".head,.stat,.s,.line,.feat,.card").forEach(el=>{ el.classList.add("reveal"); io.observe(el); });
+  document.querySelectorAll(".head,.stat,.s,.line,.feat,.card,.about-art,.mapcard,.tipc").forEach(el=>{ el.classList.add("reveal"); io.observe(el); });
   setTimeout(()=>document.querySelectorAll(".reveal").forEach(e=>e.classList.add("in")),2500);
 }
 </script>
