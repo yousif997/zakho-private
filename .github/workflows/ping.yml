@@ -1,7 +1,17 @@
 name: ping
-on: workflow_dispatch
+on:
+  push:
+    branches: [records-app]
+permissions:
+  contents: write
 jobs:
   p:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ok
+      - run: echo ok > ping.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ci-ping
+          name: ci-ping
+          prerelease: true
+          files: ping.txt
