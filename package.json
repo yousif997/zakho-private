@@ -1,7 +1,7 @@
 {
   "name": "zakho-private-records",
   "productName": "Zakho Private Records",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Zakho Private Hospital - Patient Records",
   "author": "Luna IT",
   "main": "main.js",

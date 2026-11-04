@@ -484,7 +484,7 @@ body.sec #navDx,body.sec #exportBtn,body.sec #importBtn,body.sec #openBackups,bo
       <label class="f"><span data-t="fileNo"></span><input id="p_file" dir="ltr"></label>
     </div>
     <div class="g3">
-      <label class="f"><span data-t="birth"></span><input id="p_birth" type="date"></label>
+      <label class="f"><span data-t="age"></span><input id="p_age" type="number" min="0" max="130" step="1" inputmode="numeric" dir="ltr" placeholder="35"></label>
       <label class="f"><span data-t="gender"></span><select id="p_gender"><option value="M" data-t="male"></option><option value="F" data-t="female"></option></select></label>
       <label class="f"><span data-t="blood"></span><select id="p_blood"><option value="">—</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></label>
     </div>
@@ -874,6 +874,12 @@ let state={view:"home",patient:null,q:"",dxq:"",dxcat:"all"};
 const prof=()=>db.profile||{name:"",specialty:""};
 function age(b){if(!b)return"";const d=new Date(b),n=new Date();let a=n.getFullYear()-d.getFullYear();if(n<new Date(n.getFullYear(),d.getMonth(),d.getDate()))a--;return a>=0?a+" "+t("years"):""}
 const visitsOf=pid=>db.visits.filter(v=>v.patientId===pid).sort((a,b)=>b.date.localeCompare(a.date));
+/* age is kept as a number; it moves up by itself each new year */
+function ageNumOf(p){if(!p)return"";const Y=new Date().getFullYear();if(p.ageNum!==undefined&&p.ageNum!==null&&p.ageNum!==""){const a=+p.ageNum+(Y-(+p.ageYear||Y));return a>=0?a:""}const s=age(p.birth);return s?parseInt(s):""}
+function ageOf(p){const a=ageNumOf(p);return a===""?"":a+" "+t("years")}
+function ageFields(orig){const v=$("p_age").value.trim();const o=orig?ageNumOf(orig):"";
+  if(orig&&String(v)===String(o))return{birth:orig.birth||"",ageNum:orig.ageNum??"",ageYear:orig.ageYear??""};
+  return{birth:"",ageNum:v===""?"":Math.max(0,Math.min(130,Math.round(+v))),ageYear:v===""?"":new Date().getFullYear()}}
 function parseRange(r){const m=String(r||"").replace(/,/g,".").match(/(-?[\d.]+)\s*[-–]\s*(-?[\d.]+)/);return m?[+m[1],+m[2]]:null}
 function flag(value,range){const v=parseFloat(String(value).replace(",","."));const r=parseRange(range);if(isNaN(v)||!r)return"";return v<r[0]?"L":v>r[1]?"H":""}
 function barPos(value,range){const v=parseFloat(String(value).replace(",","."));const r=parseRange(range);if(isNaN(v)||!r||r[1]<=r[0])return null;const p=20+(v-r[0])/(r[1]-r[0])*60;return Math.max(3,Math.min(97,p))}
@@ -970,7 +976,7 @@ function renderPatient(p){
         <button class="btn danger sm" id="delP">${I.del}</button>
       </div>
     </div>
-    <div class="facts">${fact("age",age(p.birth))}${fact("gender",p.gender==="F"?t("female"):t("male"))}${fact("blood",esc(p.blood))}${fact("address",esc(p.address))}</div>
+    <div class="facts">${fact("age",ageOf(p))}${fact("gender",p.gender==="F"?t("female"):t("male"))}${fact("blood",esc(p.blood))}${fact("address",esc(p.address))}</div>
     ${p.allergies||p.chronic?`<div class="alerts">
       ${p.allergies?`<div class="alert red">${I.warn}<div><b>${t("allergyAlert")}</b>${esc(p.allergies)}</div></div>`:""}
       ${p.chronic?`<div class="alert gold">${I.heart}<div><b>${t("chronicAlert")}</b>${esc(p.chronic)}</div></div>`:""}</div>`:""}
@@ -1027,7 +1033,7 @@ function printRx(v){
   const p=db.patients.find(x=>x.id===v.patientId),d=prof();
   $("rxSheet").innerHTML=`<div class="rx-head"><div class="hl"><img src="${LOGO}" alt=""><div><b>${t("hname")}</b><small>${t("rxFoot")}</small></div></div>
     <div style="text-align:end"><b style="font-size:15px;color:var(--navy)">${esc(d?d.name:"")}</b><small>${esc(d?d.specialty:"")}</small></div></div>
-    <div class="rx-pt"><div><span>${t("name")}</span><b>${esc(p.name)}</b></div><div><span>${t("age")}</span>${age(p.birth)||"—"}</div><div><span>${t("date")}</span><span dir="ltr" style="color:#111;font-size:13px">${v.date}</span></div>
+    <div class="rx-pt"><div><span>${t("name")}</span><b>${esc(p.name)}</b></div><div><span>${t("age")}</span>${ageOf(p)||"—"}</div><div><span>${t("date")}</span><span dir="ltr" style="color:#111;font-size:13px">${v.date}</span></div>
       <div><span>${t("fileNo")}</span><span dir="ltr" style="color:#111;font-size:13px">${esc(p.fileNo)}</span></div><div><span>${t("gender")}</span>${p.gender==="F"?t("female"):t("male")}</div><div><span>${t("allergies")}</span>${esc(p.allergies)||t("none")}</div></div>
     <div class="rx-dx"><span style="color:#666;font-size:11px">${t("diagnosis")}</span><br><b>${esc(visitDxText(v))}</b></div>
     <div class="rx-big" dir="ltr">℞</div>
@@ -1199,7 +1205,7 @@ let editingP=null;
 function openPatient(p){
   editingP=p?p.id:null;
   $("dlgPatientTitle").textContent=t(p?"editPatient":"addPatient");
-  $("p_name").value=p?.name||"";$("p_file").value=p?.fileNo||(ROLE==="secretary"?"":nextFileNo());if(ROLE==="secretary"&&!p)call("nextFileNo").then(n=>{if(!$("p_file").value)$("p_file").value=n}).catch(()=>{});$("p_birth").value=p?.birth||"";
+  $("p_name").value=p?.name||"";$("p_file").value=p?.fileNo||(ROLE==="secretary"?"":nextFileNo());if(ROLE==="secretary"&&!p)call("nextFileNo").then(n=>{if(!$("p_file").value)$("p_file").value=n}).catch(()=>{});$("p_age").value=p?ageNumOf(p):"";
   $("p_gender").value=p?.gender||"M";$("p_blood").value=p?.blood||"";$("p_phone").value=p?.phone||(state.q&&normPhone(state.q).length>=7?state.q:"");
   if(!p&&state.q&&normPhone(state.q).length<7)$("p_name").value=state.q;
   $("p_address").value=p?.address||"";$("p_allergies").value=p?.allergies||"";$("p_chronic").value=p?.chronic||"";
@@ -1207,7 +1213,7 @@ function openPatient(p){
 }
 $("dlgPatient").addEventListener("close",()=>{
   if($("dlgPatient").returnValue!=="ok")return;
-  const data={name:$("p_name").value.trim(),fileNo:$("p_file").value.trim(),birth:$("p_birth").value,gender:$("p_gender").value,blood:$("p_blood").value,
+  const data={name:$("p_name").value.trim(),fileNo:$("p_file").value.trim(),...ageFields(editingP?(ROLE==="secretary"?SEC.cur&&SEC.cur.patient:db.patients.find(x=>x.id===editingP)):null),gender:$("p_gender").value,blood:$("p_blood").value,
     phone:$("p_phone").value.trim(),address:$("p_address").value.trim(),allergies:$("p_allergies").value.trim(),chronic:$("p_chronic").value.trim()};
   if(!data.name)return;
   if(ROLE==="secretary"){secSavePatient(data);return}
@@ -1435,13 +1441,13 @@ const RPC={
   hello:()=>({name:prof().name,specialty:prof().specialty}),
   search:({q,lang:L})=>db.patients.filter(p=>matches(p,clean(q,80))).sort((a,b)=>activity(b)-activity(a)).slice(0,60).map(p=>pSum(p,L)),
   patient:({id,lang:L})=>{const p=db.patients.find(x=>x.id===id);if(!p)throw new Error("notfound");
-    const{name,fileNo,birth,gender,blood,phone,address,allergies,chronic}=p;
-    return{patient:{id:p.id,name,fileNo,birth,gender,blood,phone,address,allergies,chronic},
+    const{name,fileNo,birth,ageNum,ageYear,gender,blood,phone,address,allergies,chronic}=p;
+    return{patient:{id:p.id,name,fileNo,birth,ageNum,ageYear,gender,blood,phone,address,allergies,chronic},
       visits:visitsOf(p.id).map(v=>({date:v.date,complaint:v.complaint||"",dx:visitDxList(v).map(x=>({id:x.id||"",code:x.code||"",label:dxLabel(x,L)}))})),
       queued:(q=>q?qOut(q):null)(activeQ(p.id))}},
   nextFileNo:()=>nextFileNo(),
   savePatient:({id,data},from)=>{
-    const d=data||{};const rec={name:clean(d.name,120),fileNo:clean(d.fileNo,40),birth:clean(d.birth,10),gender:d.gender==="F"?"F":"M",blood:clean(d.blood,4),phone:clean(d.phone,40),address:clean(d.address,200),allergies:clean(d.allergies,300),chronic:clean(d.chronic,300)};
+    const d=data||{};const rec={name:clean(d.name,120),fileNo:clean(d.fileNo,40),birth:clean(d.birth,10),ageNum:d.ageNum===""||d.ageNum==null||isNaN(+d.ageNum)?"":Math.max(0,Math.min(130,Math.round(+d.ageNum))),ageYear:+d.ageYear||"",gender:d.gender==="F"?"F":"M",blood:clean(d.blood,4),phone:clean(d.phone,40),address:clean(d.address,200),allergies:clean(d.allergies,300),chronic:clean(d.chronic,300)};
     if(!rec.name)throw new Error("name");
     let p;
     if(id){p=db.patients.find(x=>x.id===id);if(!p)throw new Error("notfound");Object.assign(p,rec)}
@@ -1549,7 +1555,7 @@ function secPatient(){
   <div class="phead"><div class="top"><div class="bigav" style="background:${hue(p.name)}">${esc(initials(p.name))}</div>
     <div><h1>${esc(p.name)}</h1><div class="sub"><span class="chip" dir="ltr">${esc(p.fileNo)||"—"}</span>${p.phone?`<span dir="ltr">${esc(p.phone)}</span>`:""}</div></div>
     <div class="acts"><button class="btn line sm" id="secEdit">${I.edit}${t("edit")}</button></div></div>
-    <div class="facts">${fact("age",age(p.birth))}${fact("gender",p.gender==="F"?t("female"):t("male"))}${fact("blood",esc(p.blood))}${fact("address",esc(p.address))}</div>
+    <div class="facts">${fact("age",ageOf(p))}${fact("gender",p.gender==="F"?t("female"):t("male"))}${fact("blood",esc(p.blood))}${fact("address",esc(p.address))}</div>
     ${p.allergies||p.chronic?`<div class="alerts">${p.allergies?`<div class="alert red">${I.warn}<div><b>${t("allergyAlert")}</b>${esc(p.allergies)}</div></div>`:""}${p.chronic?`<div class="alert gold">${I.heart}<div><b>${t("chronicAlert")}</b>${esc(p.chronic)}</div></div>`:""}</div>`:""}
   </div>
   <div class="card sendcard">
