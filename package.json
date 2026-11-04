@@ -1,0 +1,27 @@
+{
+  "name": "zakho-private-records",
+  "productName": "Zakho Private Records",
+  "version": "1.1.0",
+  "description": "Zakho Private Hospital - Patient Records",
+  "author": "Luna IT",
+  "main": "main.js",
+  "scripts": {
+    "dist": "electron-builder --win nsis --x64 --publish never"
+  },
+  "dependencies": {
+    "electron-updater": "6.8.11"
+  },
+  "devDependencies": {
+    "electron": "44.9.2",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "com.lunait.zakhoprivate.records",
+    "productName": "Zakho Private Records",
+    "files": ["main.js", "preload.js", "index.html", "build/icon.png", "package.json"],
+    "directories": { "output": "dist", "buildResources": "build" },
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }], "icon": "build/icon.png", "artifactName": "Zakho-Private-Records-Setup-${version}.${ext}" },
+    "nsis": { "oneClick": true, "perMachine": false, "allowElevation": false, "deleteAppDataOnUninstall": false, "createDesktopShortcut": true, "createStartMenuShortcut": true, "shortcutName": "Zakho Private Records", "runAfterFinish": true },
+    "publish": [{ "provider": "generic", "url": "https://github.com/yousif997/zakho-private/releases/latest/download" }]
+  }
+}
